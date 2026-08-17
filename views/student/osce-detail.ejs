@@ -1,0 +1,69 @@
+<%- include('../partials/head', {theme}) %>
+<%- include('../partials/navbar') %>
+<div class="app-layout">
+  <%- include('../partials/sidebar') %>
+  <div class="app-main">
+    <div class="section-label">OSCE Viva — Question <%= question.id %></div>
+    <div class="card mb-6">
+      <div class="card-label">Scenario</div>
+      <p style="font-size:16px; line-height:1.6; margin-bottom:16px;"><%= question.scenario %></p>
+      <div class="card-label">Question</div>
+      <p style="font-size:16px; line-height:1.6;"><%= question.question %></p>
+    </div>
+    <div class="mb-4">
+      <label class="input-label">Your answer</label>
+      <textarea class="input-field" id="answerInput" rows="6" placeholder="Type your answer or use voice..."></textarea>
+    </div>
+    <div class="flex gap-3 mb-6">
+      <button class="btn btn--primary" onclick="submitAnswer()">Submit answer</button>
+      <button class="btn btn--secondary" onclick="toggleVoice()">Start speaking</button>
+    </div>
+    <div id="feedback" class="hidden">
+      <div class="card mb-4">
+        <h3 class="mb-4">Feedback</h3>
+        <div id="scores"></div>
+      </div>
+      <div class="card card--warning">
+        <div class="card-label" style="color:var(--warning);">What you missed</div>
+        <p id="missedText" style="font-size:14px;"></p>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+async function submitAnswer() {
+  const answer = document.getElementById('answerInput').value;
+  if (!answer.trim()) { alert('Please write your answer first.'); return; }
+  const res = await fetch('/student/osce/<%= question.id %>/respond', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ user_answer: answer })
+  });
+  const data = await res.json();
+  const s = data.scores;
+  document.getElementById('scores').innerHTML = `
+    <div class="osce-score mb-4"><span>Clinical reasoning</span><div class="osce-score__bar"><div class="osce-score__fill" style="width:${s.clinical_reasoning*10}%"></div></div><span class="osce-score__val">${s.clinical_reasoning}/10</span></div>
+    <div class="osce-score mb-4"><span>Communication</span><div class="osce-score__bar"><div class="osce-score__fill" style="width:${s.communication*10}%"></div></div><span class="osce-score__val">${s.communication}/10</span></div>
+    <div class="osce-score mb-4"><span>Ethics</span><div class="osce-score__bar"><div class="osce-score__fill" style="width:${s.ethics*10}%"></div></div><span class="osce-score__val">${s.ethics}/10</span></div>
+    <div class="osce-score mb-4"><span>Structure</span><div class="osce-score__bar"><div class="osce-score__fill" style="width:${s.structure*10}%"></div></div><span class="osce-score__val">${s.structure}/10</span></div>
+  `;
+  document.getElementById('missedText').textContent = s.feedback;
+  document.getElementById('feedback').classList.remove('hidden');
+}
+function toggleVoice() {
+  if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SR();
+    recognition.continuous = true; recognition.interimResults = true;
+    recognition.onresult = (e) => {
+      let text = '';
+      for (let i = 0; i < e.results.length; i++) text += e.results[i][0].transcript;
+      document.getElementById('answerInput').value = text;
+    };
+    recognition.start();
+  } else {
+    alert('Voice recognition is not supported in your browser. Please type your answer.');
+  }
+}
+</script>
+<%- include('../partials/mobile-nav') %>
+<%- include('../partials/footer') %>
