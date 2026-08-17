@@ -1,0 +1,39 @@
+<%- include('../partials/head', {theme}) %>
+<%- include('../partials/navbar') %>
+<div class="app-layout">
+  <%- include('../partials/sidebar') %>
+  <div class="app-main">
+    <div class="section-label">Skills Lab</div>
+    <h1 class="italic-serif mb-6" style="font-size:28px;"><%= scenario.skill_name %></h1>
+    <div class="card mb-6" style="background:var(--surface-2);">
+      <div class="card-label">Scenario</div>
+      <p style="font-size:18px; font-style:italic;">"<%= scenario.scenario_text %>"</p>
+    </div>
+    <p style="font-weight:600; margin-bottom:16px;">Choose your response:</p>
+    <div id="options" style="display:flex;flex-direction:column;gap:12px;">
+      <div class="card action-card" style="cursor:pointer;" onclick="checkAnswer('A', this)"><strong>A.</strong> You should try to stay positive.</div>
+      <div class="card action-card" style="cursor:pointer;" onclick="checkAnswer('B', this)"><strong>B.</strong> It sounds like you've been feeling misunderstood.</div>
+      <div class="card action-card" style="cursor:pointer;" onclick="checkAnswer('C', this)"><strong>C.</strong> Why do you think nobody understands you?</div>
+      <div class="card action-card" style="cursor:pointer;" onclick="checkAnswer('D', this)"><strong>D.</strong> Maybe you're expecting too much.</div>
+    </div>
+    <div id="explanation" class="hidden card card--success mt-6">
+      <div class="card-label" style="color:var(--success);">Explanation</div>
+      <p id="explanationText" style="font-size:14px;"></p>
+    </div>
+  </div>
+</div>
+<script>
+const correct = '<%= scenario.correct_response %>';
+const explanation = `<%= scenario.explanation.replace(/'/g, "\\'").replace(/\n/g, ' ') %>`;
+async function checkAnswer(choice, el) {
+  document.querySelectorAll('#options .card').forEach(c => c.style.borderColor = '');
+  const res = await fetch('/student/skills-lab/<%= scenario.id %>/respond', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ chosen_option: choice }) });
+  const data = await res.json();
+  if (data.isCorrect) { el.style.borderColor = 'var(--success)'; el.style.background = 'var(--success-dim)'; }
+  else { el.style.borderColor = 'var(--error)'; el.style.background = 'var(--error-dim)'; }
+  document.getElementById('explanationText').textContent = explanation;
+  document.getElementById('explanation').classList.remove('hidden');
+}
+</script>
+<%- include('../partials/mobile-nav') %>
+<%- include('../partials/footer') %>

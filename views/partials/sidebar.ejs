@@ -1,0 +1,22 @@
+<aside class="sidebar">
+  <div class="sidebar__brand">Manasyn</div>
+  <div class="sidebar__label">Personal</div>
+  <a href="/app/dashboard" class="sidebar__item <%= path.startsWith('/app/dashboard') ? 'active' : '' %>">Home</a>
+  <a href="/app/talk" class="sidebar__item <%= path.startsWith('/app/talk') ? 'active' : '' %>">Talk</a>
+  <a href="/app/reflect" class="sidebar__item <%= path.startsWith('/app/reflect') ? 'active' : '' %>">Reflect</a>
+  <a href="/app/self-work" class="sidebar__item <%= path.startsWith('/app/self-work') ? 'active' : '' %>">Self-work</a>
+  <a href="/app/progress" class="sidebar__item <%= path.startsWith('/app/progress') ? 'active' : '' %>">Progress</a>
+  <a href="/app/journal" class="sidebar__item <%= path.startsWith('/app/journal') ? 'active' : '' %>">Journal</a>
+  <% if (user && (user.role === 'student' || user.role === 'psychologist')) { %>
+  <div class="sidebar__divider"></div>
+  <div class="sidebar__label">Student</div>
+  <a href="/student/dashboard" class="sidebar__item <%= path.startsWith('/student/dashboard') ? 'active' : '' %>">Student Home</a>
+  <a href="/student/case-coach" class="sidebar__item <%= path.startsWith('/student/case-coach') ? 'active' : '' %>">Case Coach</a>
+  <a href="/student/skills-lab" class="sidebar__item <%= path.startsWith('/student/skills-lab') ? 'active' : '' %>">Skills Lab</a>
+  <a href="/student/osce" class="sidebar__item <%= path.startsWith('/student/osce') ? 'active' : '' %>">OSCE</a>
+  <a href="/student/flashcards" class="sidebar__item <%= path.startsWith('/student/flashcards') ? 'active' : '' %>">Flashcards</a>
+  <a href="/student/research" class="sidebar__item <%= path.startsWith('/student/research') ? 'active' : '' %>">Research</a>
+  <% } %>
+  <div class="sidebar__divider"></div>
+  <a href="/app/settings" class="sidebar__item <%= path.startsWith('/app/settings') ? 'active' : '' %>">Settings</a>
+</aside>

@@ -1,0 +1,28 @@
+<%- include('../partials/head', {theme}) %>
+<%- include('../partials/navbar') %>
+<div class="container-sm" style="padding-top: var(--s-10);">
+  <div class="onboard-progress">
+    <span class="done"></span><span class="done"></span><span></span><span></span>
+  </div>
+  <h1 class="italic-serif" style="font-size: 32px; margin-bottom: var(--s-3);">What would you like Manasyn to help you with?</h1>
+  <p class="text-2 mb-8">This isn't a questionnaire — it's a conversation. We'll adjust based on what you tell us.</p>
+  <% if (flash) { %><div class="flash flash--<%= flash.type %> mb-6"><%= flash.message %></div><% } %>
+  <form action="/auth/onboarding" method="POST" id="onboardForm">
+    <input type="hidden" name="intent" id="intentInput" value="">
+    <div class="onboard-option" onclick="selectIntent('understand', this)"><div class="onboard-option__radio"></div><span>I want to understand myself</span></div>
+    <div class="onboard-option" onclick="selectIntent('overwhelmed', this)"><div class="onboard-option__radio"></div><span>I'm feeling overwhelmed</span></div>
+    <div class="onboard-option" onclick="selectIntent('habits', this)"><div class="onboard-option__radio"></div><span>I want to build better habits</span></div>
+    <div class="onboard-option" onclick="selectIntent('learn', this)"><div class="onboard-option__radio"></div><span>I want to learn psychology</span></div>
+    <div class="onboard-option" onclick="selectIntent('explore', this)"><div class="onboard-option__radio"></div><span>I'm just exploring</span></div>
+    <div style="margin-top: var(--s-8);"><button type="submit" class="btn btn--primary" id="onboardSubmit" disabled>Continue</button></div>
+  </form>
+</div>
+<script>
+  function selectIntent(val, el) {
+    document.querySelectorAll('.onboard-option').forEach(o => o.classList.remove('onboard-option--selected'));
+    el.classList.add('onboard-option--selected');
+    document.getElementById('intentInput').value = val;
+    document.getElementById('onboardSubmit').disabled = false;
+  }
+</script>
+<%- include('../partials/footer') %>

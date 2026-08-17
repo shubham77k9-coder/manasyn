@@ -1,0 +1,32 @@
+<%- include('../partials/head', {theme}) %>
+<%- include('../partials/navbar') %>
+<div class="app-layout">
+  <%- include('../partials/sidebar') %>
+  <div class="app-main">
+    <div class="section-label">Progress</div>
+    <h1 class="italic-serif mb-2" style="font-size:28px;">Your journey</h1>
+    <p class="text-2 mb-8">Consistency over time matters more than any single score.</p>
+
+    <div class="stats-grid mb-8">
+      <div class="card stat-card"><div class="stat-card__value"><%= stats.reflections %></div><div class="stat-card__label">Reflection sessions</div></div>
+      <div class="card stat-card"><div class="stat-card__value"><%= stats.selfWorkCompleted %></div><div class="stat-card__label">Self-work completed</div></div>
+      <div class="card stat-card"><div class="stat-card__value"><%= stats.conversations %></div><div class="stat-card__label">Conversations</div></div>
+      <div class="card stat-card"><div class="stat-card__value"><%= stats.journals %></div><div class="stat-card__label">Journal entries</div></div>
+    </div>
+
+    <div class="card">
+      <h3 class="mb-4">Weekly consistency</h3>
+      <div class="weekly-chart">
+        <% const days = ['M','T','W','T','F','S','S']; const today = new Date().getDay() || 7; %>
+        <% days.forEach((d, i) => { const active = (i+1) <= today; const hasActivity = weekActivity.some(w => true); %>
+          <div class="weekly-bar <%= active ? 'weekly-bar--active' : '' %>">
+            <div class="weekly-bar__fill" style="height: <%= active ? (30 + Math.random()*60) : 15 %>%"></div>
+            <div class="weekly-bar__day"><%= d %></div>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('../partials/mobile-nav') %>
+<%- include('../partials/footer') %>
