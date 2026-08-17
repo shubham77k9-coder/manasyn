@@ -1,0 +1,81 @@
+<%- include('partials/head', {theme}) %>
+<%- include('partials/navbar') %>
+
+<% if (flash) { %>
+<div class="container" style="margin-top: var(--s-4);">
+  <div class="flash flash--<%= flash.type %>"><%= flash.message %></div>
+</div>
+<% } %>
+
+<!-- Hero -->
+<div class="hero">
+  <h1 class="hero__headline">A calmer way to <span>understand yourself.</span></h1>
+  <p class="hero__sub">Talk. Reflect. Grow with Manasyn.</p>
+  <div class="hero__ctas">
+    <% if (user) { %>
+      <a href="/app/dashboard" class="btn btn--primary btn--lg">Go to Dashboard</a>
+    <% } else { %>
+      <a href="/auth/signup" class="btn btn--primary btn--lg">Start Your Journey</a>
+      <a href="/for-students" class="btn btn--secondary btn--lg">Explore for Students</a>
+    <% } %>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- How it works -->
+<section style="margin-bottom: var(--s-16);">
+  <div class="section-label text-center">How it works</div>
+  <h2 class="text-center" style="margin-bottom: var(--s-2);">Three steps. One philosophy.</h2>
+  <p class="text-center text-2 mb-8">Support → Reflect → Grow</p>
+  <div class="how-steps">
+    <div class="card how-step"><div class="how-step__num">01 — Support</div><h3 class="how-step__title">Talk openly.</h3><p class="text-2">A private space to express what's on your mind.</p></div>
+    <div class="card how-step"><div class="how-step__num">02 — Reflect</div><h3 class="how-step__title">Understand what you're experiencing.</h3><p class="text-2">Explore thoughts, emotions and patterns.</p></div>
+    <div class="card how-step"><div class="how-step__num">03 — Grow</div><h3 class="how-step__title">Turn insight into action.</h3><p class="text-2">Build practical next steps and healthier habits.</p></div>
+  </div>
+</section>
+
+<!-- Features -->
+<section style="margin-bottom: var(--s-16);">
+  <div class="section-label">Features</div>
+  <h2 class="mb-8">What you can do with Manasyn</h2>
+  <div class="feature-grid">
+    <div class="card feature-card"><div class="feature-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="feature-card__title">AI Conversations</div><div class="feature-card__desc">Talk openly in a private, judgment-free space.</div></div>
+    <div class="card feature-card"><div class="feature-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><div class="feature-card__title">Guided Reflection</div><div class="feature-card__desc">Understand patterns in your thoughts and emotions.</div></div>
+    <div class="card feature-card"><div class="feature-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><div class="feature-card__title">Self-Work</div><div class="feature-card__desc">Practical exercises you can do in minutes.</div></div>
+    <div class="card feature-card"><div class="feature-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14"/></svg></div><div class="feature-card__title">Personal Growth</div><div class="feature-card__desc">Track your journey without gamifying mental health.</div></div>
+    <div class="card feature-card"><div class="feature-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg></div><div class="feature-card__title">Voice</div><div class="feature-card__desc">Speak naturally when typing feels like effort.</div></div>
+    <div class="card feature-card"><div class="feature-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="feature-card__title">Journal</div><div class="feature-card__desc">Write freely and track your mood over time.</div></div>
+  </div>
+</section>
+
+<!-- Student Section -->
+<section class="student-section">
+  <h2 class="italic-serif" style="font-size: clamp(28px, 4vw, 40px); margin-bottom: var(--s-3);">Practice psychology beyond the textbook.</h2>
+  <p class="text-2 mb-8" style="font-size: 16px;">Tools designed for psychology students to build real clinical skills.</p>
+  <div class="student-grid">
+    <div class="card"><div class="card-label">01</div><div style="font-weight:600;font-size:14px;">Case Coach</div><div style="font-size:12px;color:var(--text-2);">Practice realistic cases</div></div>
+    <div class="card"><div class="card-label">02</div><div style="font-weight:600;font-size:14px;">Skills Lab</div><div style="font-size:12px;color:var(--text-2);">Build counselling skills</div></div>
+    <div class="card"><div class="card-label">03</div><div style="font-weight:600;font-size:14px;">OSCE Viva</div><div style="font-size:12px;color:var(--text-2);">Prepare for clinical viva</div></div>
+    <div class="card"><div class="card-label">04</div><div style="font-weight:600;font-size:14px;">Flashcards</div><div style="font-size:12px;color:var(--text-2);">Revise faster</div></div>
+    <div class="card"><div class="card-label">05</div><div style="font-weight:600;font-size:14px;">Research Helper</div><div style="font-size:12px;color:var(--text-2);">Work smarter on research</div></div>
+  </div>
+  <a href="/for-students" class="btn btn--primary mt-8">Explore student tools</a>
+</section>
+
+<!-- Trust & Safety -->
+<section style="margin-bottom: var(--s-16);">
+  <div class="section-label text-center">Safety</div>
+  <h2 class="italic-serif text-center" style="font-size: clamp(28px, 4vw, 40px); margin-bottom: var(--s-3);">Designed with care. Built with boundaries.</h2>
+  <p class="text-center text-2 mb-8">Your safety and privacy are not afterthoughts.</p>
+  <div class="feature-grid">
+    <div class="card"><div class="card-label">Safety</div><p style="font-size:14px;">AI isn't a replacement for professional care. We surface crisis resources when needed.</p></div>
+    <div class="card"><div class="card-label">Privacy</div><p style="font-size:14px;">Your conversations are private. You control your data — export or delete at any time.</p></div>
+    <div class="card"><div class="card-label">Boundaries</div><p style="font-size:14px;">Clear guidance on when professional support is appropriate, not a substitute for it.</p></div>
+    <div class="card"><div class="card-label">Control</div><p style="font-size:14px;">You decide what to share, when to reflect, and how far to go. Nothing is forced.</p></div>
+  </div>
+</section>
+
+</div>
+
+<%- include('partials/footer') %>
