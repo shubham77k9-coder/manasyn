@@ -1,0 +1,76 @@
+<%- include('../partials/head', {theme}) %>
+<%- include('../partials/navbar') %>
+<div class="app-layout">
+  <%- include('../partials/sidebar') %>
+  <div class="app-main">
+    <% if (flash) { %><div class="flash flash--<%= flash.type %> mb-6"><%= flash.message %></div><% } %>
+    <div class="section-label">Settings</div>
+    <h1 class="italic-serif mb-8" style="font-size:28px;">Account & preferences</h1>
+
+    <div class="settings-layout">
+      <nav class="settings-nav">
+        <a href="#account" class="settings-nav__item active">Account</a>
+        <a href="#preferences" class="settings-nav__item">Preferences</a>
+        <a href="#privacy" class="settings-nav__item">Privacy</a>
+        <a href="#safety" class="settings-nav__item">Safety</a>
+      </nav>
+      <div>
+        <div id="account" class="mb-8">
+          <h3 class="mb-4">Account</h3>
+          <form action="/app/settings/account" method="POST">
+            <div class="input-group"><label class="input-label">Name</label><input class="input-field" type="text" name="name" value="<%= user.name %>"></div>
+            <div class="input-group"><label class="input-label">Email</label><input class="input-field" type="email" name="email" value="<%= user.email %>"></div>
+            <button type="submit" class="btn btn--primary btn--sm">Save changes</button>
+          </form>
+        </div>
+
+        <div id="preferences" class="mb-8">
+          <h3 class="mb-4">Preferences</h3>
+          <form action="/app/settings/preferences" method="POST" id="prefForm">
+            <div class="settings-row"><div><div class="settings-row__label">Theme</div><div class="settings-row__desc">Choose light or dark mode</div></div>
+              <select class="input-field" name="theme" style="width:auto;" onchange="document.body.dataset.theme=this.value">
+                <option value="light" <%= settings.theme==='light'?'selected':'' %>>Light</option>
+                <option value="dark" <%= settings.theme==='dark'?'selected':'' %>>Dark</option>
+              </select>
+            </div>
+            <div class="settings-row"><div><div class="settings-row__label">Notifications</div><div class="settings-row__desc">Check-in reminders and updates</div></div>
+              <button type="button" class="toggle <%= settings.notifications_enabled ? 'toggle--on' : '' %>" onclick="this.classList.toggle('toggle--on'); this.nextElementSibling.value = this.classList.contains('toggle--on') ? '1' : '';"></button>
+              <input type="hidden" name="notifications_enabled" value="<%= settings.notifications_enabled ? '1' : '' %>">
+            </div>
+            <div class="settings-row"><div><div class="settings-row__label">Voice responses</div><div class="settings-row__desc">Allow Manasyn to respond by voice</div></div>
+              <button type="button" class="toggle <%= settings.voice_responses ? 'toggle--on' : '' %>" onclick="this.classList.toggle('toggle--on'); this.nextElementSibling.value = this.classList.contains('toggle--on') ? '1' : '';"></button>
+              <input type="hidden" name="voice_responses" value="<%= settings.voice_responses ? '1' : '' %>">
+            </div>
+            <div class="settings-row"><div><div class="settings-row__label">Reduced motion</div><div class="settings-row__desc">Minimize animations and transitions</div></div>
+              <button type="button" class="toggle <%= settings.reduced_motion ? 'toggle--on' : '' %>" onclick="this.classList.toggle('toggle--on'); this.nextElementSibling.value = this.classList.contains('toggle--on') ? '1' : '';"></button>
+              <input type="hidden" name="reduced_motion" value="<%= settings.reduced_motion ? '1' : '' %>">
+            </div>
+            <button type="submit" class="btn btn--primary btn--sm mt-4">Save preferences</button>
+          </form>
+        </div>
+
+        <div id="privacy" class="mb-8">
+          <h3 class="mb-4">Privacy</h3>
+          <div class="settings-row"><div><div class="settings-row__label">Export your data</div><div class="settings-row__desc">Download all your conversations, reflections, and journal entries</div></div>
+            <a href="/app/export" class="btn btn--secondary btn--sm">Export</a>
+          </div>
+          <div class="settings-row"><div><div class="settings-row__label" style="color:var(--error);">Delete account</div><div class="settings-row__desc">Permanently delete your account and all data</div></div>
+            <form method="POST" action="/app/settings/delete-account" onsubmit="return confirm('Are you sure? This will permanently delete your account and all data. This cannot be undone.')">
+              <button type="submit" class="btn btn--destructive btn--sm">Delete</button>
+            </form>
+          </div>
+        </div>
+
+        <div id="safety" class="mb-8">
+          <h3 class="mb-4">Safety</h3>
+          <div class="note note--error">
+            <strong>If you are in crisis:</strong> Manasyn is not a replacement for professional care. Please reach out to a crisis helpline or emergency services.
+          </div>
+          <a href="/crisis-resources" class="btn btn--primary btn--sm">View crisis resources</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('../partials/mobile-nav') %>
+<%- include('../partials/footer') %>
