@@ -1,0 +1,98 @@
+<%- include('../partials/head', {theme}) %>
+<%- include('../partials/navbar') %>
+
+<div class="auth-wrap">
+  <div class="auth-card">
+    <div class="auth-brand">Manasyn</div>
+    <% if (flash) { %><div class="flash flash--<%= flash.type %> mb-6"><%= flash.message %></div><% } %>
+
+    <% if (step === 1) { %>
+      <h1 class="auth-title">Create your account.</h1>
+      <p class="auth-sub">Start your journey with Manasyn.</p>
+      <form action="/auth/signup" method="POST">
+        <input type="hidden" name="step" value="1">
+        <div class="input-group"><label class="input-label">Email</label><input class="input-field" type="email" name="email" placeholder="you@example.com" required></div>
+        <div class="input-group"><label class="input-label">Password</label><input class="input-field" type="password" name="password" placeholder="At least 6 characters" required><div class="input-hint">Use at least 6 characters.</div></div>
+        <button type="submit" class="btn btn--primary btn--block">Continue</button>
+      </form>
+    <% } else if (step === 2) { %>
+      <h1 class="auth-title">Tell us about you.</h1>
+      <p class="auth-sub">What brings you to Manasyn?</p>
+      <form action="/auth/signup" method="POST">
+        <input type="hidden" name="step" value="2">
+        <input type="hidden" name="email" value="<%= data.email %>">
+        <input type="hidden" name="password" value="<%= data.password %>">
+        <div class="input-group"><label class="input-label">Name</label><input class="input-field" type="text" name="name" placeholder="Your name" required></div>
+        <div class="input-group"><label class="input-label">What brings you here?</label>
+          <select class="input-field" name="intent">
+            <option value="">Select an option...</option>
+            <option value="understand">I want to understand myself</option>
+            <option value="overwhelmed">I'm feeling overwhelmed</option>
+            <option value="habits">I want to build better habits</option>
+            <option value="learn">I want to learn psychology</option>
+            <option value="explore">I'm just exploring</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn--primary btn--block">Continue</button>
+      </form>
+    <% } else if (step === 3) { %>
+      <h1 class="auth-title">Choose your role.</h1>
+      <p class="auth-sub">This helps us tailor your experience.</p>
+      <form action="/auth/signup" method="POST" id="roleForm">
+        <input type="hidden" name="step" value="3">
+        <input type="hidden" name="email" value="<%= data.email %>">
+        <input type="hidden" name="password" value="<%= data.password %>">
+        <input type="hidden" name="name" value="<%= data.name %>">
+        <input type="hidden" name="intent" value="<%= data.intent %>">
+        <input type="hidden" name="role" id="roleInput" value="">
+        <div class="role-grid mb-6">
+          <div class="role-card" onclick="selectRole('personal', this)"><div class="role-card__icon">🌿</div><div class="role-card__title">Personal wellbeing</div><div class="role-card__desc">Support, reflection, growth</div></div>
+          <div class="role-card" onclick="selectRole('student', this)"><div class="role-card__icon">📚</div><div class="role-card__title">Psychology student</div><div class="role-card__desc">Learn & practice skills</div></div>
+          <div class="role-card" onclick="selectRole('psychologist', this)"><div class="role-card__icon">🧠</div><div class="role-card__title">Psychologist</div><div class="role-card__desc">Both personal & student tools</div></div>
+        </div>
+        <button type="submit" class="btn btn--primary btn--block" id="roleSubmit" disabled>Continue</button>
+      </form>
+      <script>
+        function selectRole(role, el) {
+          document.querySelectorAll('.role-card').forEach(c => c.classList.remove('role-card--selected'));
+          el.classList.add('role-card--selected');
+          document.getElementById('roleInput').value = role;
+          document.getElementById('roleSubmit').disabled = false;
+        }
+      </script>
+    <% } else if (step === 4) { %>
+      <h1 class="auth-title">What are your goals?</h1>
+      <p class="auth-sub">Select all that apply — you can change these later.</p>
+      <form action="/auth/signup" method="POST" id="goalsForm">
+        <input type="hidden" name="step" value="4">
+        <input type="hidden" name="email" value="<%= data.email %>">
+        <input type="hidden" name="password" value="<%= data.password %>">
+        <input type="hidden" name="name" value="<%= data.name %>">
+        <input type="hidden" name="intent" value="<%= data.intent %>">
+        <input type="hidden" name="role" value="<%= data.role %>">
+        <div class="check-grid mb-6">
+          <div class="check-option" onclick="toggleGoal(this)"><div class="check-option__box"></div><span>Better understand myself</span></div>
+          <div class="check-option" onclick="toggleGoal(this)"><div class="check-option__box"></div><span>Manage stress</span></div>
+          <div class="check-option" onclick="toggleGoal(this)"><div class="check-option__box"></div><span>Build habits</span></div>
+          <div class="check-option" onclick="toggleGoal(this)"><div class="check-option__box"></div><span>Learn psychology</span></div>
+          <div class="check-option" onclick="toggleGoal(this)"><div class="check-option__box"></div><span>Practice counselling</span></div>
+          <div class="check-option" onclick="toggleGoal(this)"><div class="check-option__box"></div><span>Improve sleep</span></div>
+        </div>
+        <button type="submit" class="btn btn--primary btn--block">Create my account</button>
+      </form>
+      <script>
+        function toggleGoal(el) { el.classList.toggle('check-option--selected'); updateGoals(); }
+        function updateGoals() {
+          document.querySelectorAll('input[name="goals"]').forEach(i => i.remove());
+          document.querySelectorAll('.check-option--selected span').forEach(s => {
+            const input = document.createElement('input'); input.type = 'hidden'; input.name = 'goals'; input.value = s.textContent;
+            document.getElementById('goalsForm').appendChild(input);
+          });
+        }
+      </script>
+    <% } %>
+
+    <div class="auth-footer">Already have an account? <a href="/auth/login">Log in</a></div>
+  </div>
+</div>
+<%- include('../partials/footer') %>
