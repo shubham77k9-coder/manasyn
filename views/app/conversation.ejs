@@ -1,0 +1,55 @@
+<%- include('../partials/head', {theme}) %>
+<%- include('../partials/navbar') %>
+<div class="app-layout">
+  <%- include('../partials/sidebar') %>
+  <div class="app-main">
+    <div class="convo-wrap">
+      <div class="convo-header">
+        <div class="convo-header__avatar">M</div>
+        <div>
+          <div class="convo-header__name">Manasyn</div>
+          <div class="convo-header__status">Active</div>
+        </div>
+      </div>
+
+      <div class="convo-messages" id="messages">
+        <% if (messages.length === 0) { %>
+          <div class="msg msg--ai">
+            <div class="msg__avatar"><div class="msg__avatar-dot"></div><span class="msg__avatar-label">MANASYN</span></div>
+            <div class="msg__text">Hello. I'm here to listen. How are you feeling today? You can share as much or as little as you'd like.</div>
+          </div>
+        <% } else { %>
+          <% messages.forEach(m => { %>
+            <div class="msg msg--<%= m.role === 'user' ? 'user' : 'ai' %>">
+              <% if (m.role === 'assistant') { %>
+                <div class="msg__avatar"><div class="msg__avatar-dot"></div><span class="msg__avatar-label">MANASYN</span></div>
+              <% } %>
+              <div class="msg__text"><%- m.content.replace(/\n/g, '<br>') %></div>
+            </div>
+          <% }) %>
+        <% } %>
+      </div>
+
+      <div class="convo-quick-actions">
+        <button class="quick-action" onclick="sendQuickAction('Reflect on this')">Reflect on this</button>
+        <button class="quick-action" onclick="sendQuickAction('Help me understand this')">Help me understand</button>
+        <button class="quick-action" onclick="sendQuickAction('Give me a practical step')">Practical step</button>
+        <button class="quick-action" onclick="sendQuickAction('Summarize what I have shared so far')">Summarize</button>
+      </div>
+
+      <div class="convo-input">
+        <button class="convo-input__voice" onclick="toggleVoice()" title="Talk">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+        </button>
+        <input class="convo-input__text" id="msgInput" placeholder="Type here..." onkeydown="if(event.key==='Enter')sendMessage()">
+        <input type="hidden" id="convId" value="<%= conv.id %>">
+        <button class="convo-input__send" onclick="sendMessage()" title="Send">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="/js/conversation.js"></script>
+<%- include('../partials/mobile-nav') %>
+<%- include('../partials/footer') %>
