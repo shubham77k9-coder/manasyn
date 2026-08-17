@@ -1,0 +1,58 @@
+<%- include('../partials/head', {theme}) %>
+<%- include('../partials/navbar') %>
+<div class="app-layout">
+  <%- include('../partials/sidebar') %>
+  <div class="app-main">
+    <div class="section-label">Flashcards — <%= deck.name %></div>
+    <div class="flex-between mb-6">
+      <h1 class="italic-serif" style="font-size:28px;"><%= deck.name %></h1>
+      <span class="text-2" style="font-size:13px;"><span id="cardNum">1</span> / <%= cards.length %></span>
+    </div>
+    <div class="flashcard" id="flashcard" onclick="flipCard()">
+      <div class="flashcard__question" id="cardFront"><%= cards[0].front %></div>
+      <div class="flashcard__hint" id="cardHint">Tap to reveal</div>
+    </div>
+    <div class="flex-between mb-6">
+      <button class="btn btn--ghost btn--sm" onclick="prevCard()">← Previous</button>
+      <button class="btn btn--ghost btn--sm" onclick="nextCard()">Next →</button>
+    </div>
+    <div class="flex gap-2" id="ratings" style="justify-content:center; display:none;">
+      <button class="btn btn--sm" style="color:var(--error);border-color:var(--error)" onclick="rateCard('again')">Again</button>
+      <button class="btn btn--sm" style="color:var(--warning);border-color:var(--warning)" onclick="rateCard('hard')">Hard</button>
+      <button class="btn btn--sm" style="color:var(--success);border-color:var(--success)" onclick="rateCard('good')">Good</button>
+      <button class="btn btn--sm" style="color:var(--brand);border-color:var(--brand)" onclick="rateCard('easy')">Easy</button>
+    </div>
+  </div>
+</div>
+<script>
+const cards = <%- JSON.stringify(cards.map(c => ({front:c.front, back:c.back, id:c.id}))) %>;
+let idx = 0; let flipped = false;
+function renderCard() {
+  document.getElementById('cardFront').textContent = cards[idx].front;
+  document.getElementById('cardHint').textContent = 'Tap to reveal';
+  document.getElementById('cardNum').textContent = idx + 1;
+  document.getElementById('ratings').style.display = 'none';
+  flipped = false;
+}
+function flipCard() {
+  if (!flipped) {
+    document.getElementById('cardFront').textContent = cards[idx].back;
+    document.getElementById('cardHint').textContent = 'Tap to hide';
+    document.getElementById('ratings').style.display = 'flex';
+    flipped = true;
+  } else {
+    renderCard();
+  }
+}
+function nextCard() { if (idx < cards.length - 1) { idx++; renderCard(); } }
+function prevCard() { if (idx > 0) { idx--; renderCard(); } }
+async function rateCard(rating) {
+  await fetch('/student/flashcards/' + cards[idx].id + '/review', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ rating })
+  });
+  if (idx < cards.length - 1) { nextCard(); } else { alert('Deck complete!'); }
+}
+</script>
+<%- include('../partials/mobile-nav') %>
+<%- include('../partials/footer') %>

@@ -1,0 +1,9 @@
+<%- include('partials/head', {theme}) %>
+
+<!-- CSRF meta tag for JS fetch interception -->
+<meta name="csrf-token" content="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+
+<!-- AOS CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+<!-- Enhanced CSS (cursor, skeleton, animations) -->
+<link rel="stylesheet" href="/css/enhanced.css">

@@ -1,0 +1,32 @@
+# ═══ Manasyn v2 — Render Deployment Config ═══
+# Render runs the Node.js backend. Frontend is on Cloudflare Pages.
+# File: render.yaml — placed in repo root.
+
+services:
+  - type: web
+    name: manasyn-backend
+    runtime: node
+    plan: free
+    region: singapore  # Closest to India
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MANASYN_PORT
+        value: 4567
+      - key: SESSION_SECRET
+        sync: false  # Set manually in Render dashboard — generate a long random string
+      - key: SUPABASE_URL
+        sync: false  # Set in Render dashboard from Supabase project settings
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false  # NEVER expose in frontend. Server-only.
+      - key: DB_PATH
+        value: /data/manasyn.db  # Use Render's persistent disk
+    disk:
+      name: manasyn-data
+      mountPath: /data
+      sizeGB: 1

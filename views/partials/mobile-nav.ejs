@@ -1,0 +1,9 @@
+<nav class="mobile-nav">
+  <div class="mobile-nav__items">
+    <a href="/app/dashboard" class="mobile-nav__item <%= path.startsWith('/app/dashboard') ? 'active' : '' %>">Home</a>
+    <a href="/app/reflect" class="mobile-nav__item <%= path.startsWith('/app/reflect') ? 'active' : '' %>">Reflect</a>
+    <a href="/app/talk" class="mobile-nav__item mobile-nav__item--center">Talk</a>
+    <a href="/app/progress" class="mobile-nav__item <%= path.startsWith('/app/progress') ? 'active' : '' %>">Progress</a>
+    <a href="/app/settings" class="mobile-nav__item <%= path.startsWith('/app/settings') ? 'active' : '' %>">Profile</a>
+  </div>
+</nav>

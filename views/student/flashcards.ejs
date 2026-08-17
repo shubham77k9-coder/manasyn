@@ -1,0 +1,21 @@
+<%- include('../partials/head', {theme}) %>
+<%- include('../partials/navbar') %>
+<div class="app-layout">
+  <%- include('../partials/sidebar') %>
+  <div class="app-main">
+    <div class="section-label">Flashcards</div>
+    <h1 class="italic-serif mb-2" style="font-size:28px;">Revise faster</h1>
+    <p class="text-2 mb-8">Spaced repetition for psychology concepts.</p>
+    <div class="dash-actions">
+      <% decks.forEach(d => { %>
+        <a href="/student/flashcards/deck/<%= d.id %>" class="card action-card card--accent">
+          <div class="card-label"><%= (d.category||'').toUpperCase() %></div>
+          <div class="action-card__title"><%= d.name %></div>
+          <div class="action-card__desc"><%= d.card_count %> cards</div>
+        </a>
+      <% }) %>
+    </div>
+  </div>
+</div>
+<%- include('../partials/mobile-nav') %>
+<%- include('../partials/footer') %>

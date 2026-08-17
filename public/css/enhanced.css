@@ -1,0 +1,233 @@
+/* ═══════════════════════════════════════════════════════════════
+   MANASYN v2 — ENHANCED CSS
+   Skeleton loading, cursor animations, button effects, smooth UX
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Custom Cursor ── */
+.cursor-dot, .cursor-ring {
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 50%;
+  transition: transform 0.15s ease, opacity 0.3s ease;
+  will-change: transform;
+}
+.cursor-dot {
+  width: 8px; height: 8px;
+  background: var(--brand);
+  transform: translate(-50%, -50%);
+}
+.cursor-ring {
+  width: 36px; height: 36px;
+  border: 1.5px solid var(--brand-3);
+  transform: translate(-50%, -50%);
+  transition: transform 0.25s var(--ease-out), width 0.25s var(--ease-out), height 0.25s var(--ease-out), border-color 0.25s ease;
+}
+.cursor-ring--hover {
+  width: 56px; height: 56px;
+  border-color: var(--brand);
+  background: var(--brand-dim);
+}
+@media (hover: none) { .cursor-dot, .cursor-ring { display: none; } }
+@media (max-width: 900px) { .cursor-dot, .cursor-ring { display: none; } }
+
+/* ── Button micro-interactions ── */
+.btn {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.25s var(--ease-out);
+}
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 0; height: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.4s ease, height 0.4s ease;
+}
+.btn:active::after {
+  width: 300px; height: 300px;
+  transition: 0s;
+}
+.btn--primary {
+  box-shadow: 0 2px 8px rgba(91,91,214,0.3);
+}
+.btn--primary:hover {
+  box-shadow: 0 4px 20px rgba(91,91,214,0.4);
+  transform: translateY(-2px);
+}
+
+/* ── Card hover effects ── */
+.card {
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out), border-color 0.3s ease;
+}
+.action-card:hover, .feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(91,91,214,0.1);
+}
+
+/* ── Skeleton loading ── */
+.skeleton {
+  background: linear-gradient(90deg,
+    var(--surface-2) 0%,
+    var(--surface-3) 50%,
+    var(--surface-2) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--r-sm);
+}
+.skeleton--text { height: 14px; margin-bottom: 8px; }
+.skeleton--title { height: 24px; width: 60%; margin-bottom: 12px; }
+.skeleton--card { height: 120px; border-radius: var(--r-lg); }
+.skeleton--avatar { width: 36px; height: 36px; border-radius: 50%; }
+.skeleton--line { height: 12px; margin-bottom: 6px; }
+.skeleton--line:last-child { width: 70%; }
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Page transition ── */
+.page-enter {
+  animation: pageEnter 0.4s var(--ease-out) both;
+}
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Message animation ── */
+.msg {
+  animation: msgIn 0.3s var(--ease-out) both;
+}
+@keyframes msgIn {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── Typing indicator pulse ── */
+.typing-dots span {
+  animation: typingPulse 1.2s infinite ease-in-out;
+}
+.typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingPulse {
+  0%, 60%, 100% { opacity: 0.3; transform: scale(0.8); }
+  30% { opacity: 1; transform: scale(1.1); }
+}
+
+/* ── Voice orb subtle breathing ── */
+.voice-state__dot {
+  animation: breath 3s infinite ease-in-out;
+}
+.voice-state__ring {
+  animation: ringPulse 3s infinite ease-in-out;
+}
+@keyframes breath {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.08); opacity: 1; }
+}
+@keyframes ringPulse {
+  0%, 100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.15); opacity: 0.2; }
+}
+
+/* ── Flashcard flip 3D ── */
+.flashcard {
+  perspective: 1000px;
+  transition: transform 0.5s var(--ease-out), box-shadow 0.3s ease;
+}
+
+/* ── Progress bar fill animation ── */
+.progress__fill {
+  animation: fillBar 0.8s var(--ease-out) both;
+}
+@keyframes fillBar {
+  from { width: 0; }
+}
+
+/* ── Staggered fade-in for grids ── */
+.stagger > * {
+  animation: fadeUp 0.4s var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 0.06s);
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Scroll progress bar ── */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  background: var(--brand);
+  z-index: 100;
+  transition: width 0.1s ease;
+  width: 0;
+}
+
+/* ── Toast notifications ── */
+.toast-container {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  z-index: 1000;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.toast {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--brand);
+  border-radius: var(--r-md);
+  padding: 12px 20px;
+  box-shadow: var(--shadow-lg);
+  font-size: 14px;
+  max-width: 360px;
+  animation: toastIn 0.3s var(--ease-out) both;
+}
+.toast--success { border-left-color: var(--success); }
+.toast--error { border-left-color: var(--error); }
+.toast--info { border-left-color: var(--info); }
+.toast.removing { animation: toastOut 0.3s var(--ease-out) both; }
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(100%); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes toastOut {
+  to { opacity: 0; transform: translateX(100%); }
+}
+
+/* ── Network status indicator ── */
+.network-banner {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: var(--warning);
+  color: #fff;
+  text-align: center;
+  padding: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  z-index: 1000;
+  display: none;
+}
+.network-banner.show { display: block; animation: slideUp 0.3s ease; }
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+/* ── Focus ring (accessible) ── */
+*:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .cursor-dot, .cursor-ring { display: none !important; }
+}

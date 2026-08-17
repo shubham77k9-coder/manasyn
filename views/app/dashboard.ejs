@@ -1,0 +1,67 @@
+<%- include('../partials/head', {theme}) %>
+<%- include('../partials/navbar') %>
+
+<div class="app-layout">
+  <%- include('../partials/sidebar') %>
+  <div class="app-main">
+    <% if (flash) { %><div class="flash flash--<%= flash.type %> mb-6"><%= flash.message %></div><% } %>
+
+    <div class="mb-8">
+      <h1 class="italic-serif" style="font-size: 32px;">Good morning, <%= user.name || 'friend' %>.</h1>
+      <p class="text-2" style="font-size: 16px;">What would you like to focus on today?</p>
+    </div>
+
+    <div class="talk-hero">
+      <h2 class="talk-hero__title">Talk to Manasyn</h2>
+      <p class="talk-hero__sub">What's on your mind today?</p>
+      <form method="POST" action="/app/talk/new" style="display:inline">
+        <button type="submit" class="talk-hero__btn">Start conversation →</button>
+      </form>
+    </div>
+
+    <div class="dash-actions">
+      <a href="/app/reflect" class="card action-card">
+        <div class="action-card__icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+        <div class="action-card__title">Reflect</div>
+        <div class="action-card__desc">Take a moment to check in.</div>
+      </a>
+      <a href="/app/self-work" class="card action-card">
+        <div class="action-card__icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <div class="action-card__title">Self-work</div>
+        <div class="action-card__desc">Continue your plan.</div>
+      </a>
+      <a href="/app/progress" class="card action-card">
+        <div class="action-card__icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14"/></svg></div>
+        <div class="action-card__title">Progress</div>
+        <div class="action-card__desc">See how you're doing.</div>
+      </a>
+      <a href="/app/journal" class="card action-card">
+        <div class="action-card__icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+        <div class="action-card__title">Journal</div>
+        <div class="action-card__desc">Write what's on your mind.</div>
+      </a>
+    </div>
+
+    <div class="stats-grid mt-8">
+      <div class="card stat-card">
+        <div class="stat-card__value"><%= stats.reflections %></div>
+        <div class="stat-card__label">Reflections</div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-card__value"><%= stats.selfWorkCompleted %>/<%= stats.selfWorkTotal %></div>
+        <div class="stat-card__label">Self-work done</div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-card__value"><%= stats.conversations %></div>
+        <div class="stat-card__label">Conversations</div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-card__value"><%= activeDays %>/7</div>
+        <div class="stat-card__label">This week</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/mobile-nav') %>
+<%- include('../partials/footer') %>

@@ -1,0 +1,53 @@
+<%- include('../partials/head', {theme}) %>
+<%- include('../partials/navbar') %>
+<div class="app-layout">
+  <%- include('../partials/sidebar') %>
+  <div class="app-main">
+    <div class="section-label">Research Helper</div>
+    <h1 class="italic-serif mb-6" style="font-size:28px;">What are you working on?</h1>
+    <div class="card mb-6">
+      <div class="input-group"><label class="input-label">Research question</label><input class="input-field" id="rq" placeholder="Enter your research question..."></div>
+      <label class="input-label">Research type</label>
+      <div class="research-types mb-4">
+        <div class="research-type" onclick="selectType('quantitative', this)">Quantitative</div>
+        <div class="research-type research-type--active" onclick="selectType('qualitative', this)">Qualitative</div>
+        <div class="research-type" onclick="selectType('mixed', this)">Mixed methods</div>
+      </div>
+      <button class="btn btn--primary" onclick="generateFramework()">Generate framework</button>
+    </div>
+    <div id="output" class="hidden"></div>
+    <div class="note note--warn mt-6">
+      <strong>Important:</strong> Always verify generated academic claims against primary sources. This framework is a starting point, not a substitute for rigorous literature review.
+    </div>
+  </div>
+</div>
+<script>
+let rtype = 'qualitative';
+function selectType(type, el) {
+  document.querySelectorAll('.research-type').forEach(r => r.classList.remove('research-type--active'));
+  el.classList.add('research-type--active');
+  rtype = type;
+}
+async function generateFramework() {
+  const q = document.getElementById('rq').value;
+  if (!q) { alert('Please enter a research question.'); return; }
+  const res = await fetch('/student/research/generate', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ question: q, research_type: rtype })
+  });
+  const data = await res.json();
+  const f = data.framework;
+  document.getElementById('output').innerHTML = `
+    <div class="card">
+      <div class="research-section"><div class="research-section__label">Research question</div><div class="research-section__content">${f.research_question}</div></div>
+      <div class="research-section"><div class="research-section__label">Variables</div><div class="research-section__content">${f.variables}</div></div>
+      <div class="research-section"><div class="research-section__label">Hypothesis</div><div class="research-section__content">${f.hypothesis}</div></div>
+      <div class="research-section"><div class="research-section__label">Methodology</div><div class="research-section__content">${f.methodology}</div></div>
+      <div class="research-section"><div class="research-section__label">Possible measures</div><div class="research-section__content">${f.measures}</div></div>
+      <div class="research-section"><div class="research-section__label">Search strategy</div><div class="research-section__content">${f.search_strategy}</div></div>
+    </div>`;
+  document.getElementById('output').classList.remove('hidden');
+}
+</script>
+<%- include('../partials/mobile-nav') %>
+<%- include('../partials/footer') %>

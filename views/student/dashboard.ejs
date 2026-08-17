@@ -1,0 +1,49 @@
+<%- include('../partials/head', {theme}) %>
+<%- include('../partials/navbar') %>
+<div class="app-layout">
+  <%- include('../partials/sidebar') %>
+  <div class="app-main">
+    <% if (flash) { %><div class="flash flash--<%= flash.type %> mb-6"><%= flash.message %></div><% } %>
+    <div class="mb-8">
+      <h1 class="italic-serif" style="font-size: 32px;">Good morning. Ready to practice?</h1>
+      <p class="text-2" style="font-size: 16px;">Build real clinical skills with adaptive AI feedback.</p>
+    </div>
+
+    <div class="dash-actions mb-8">
+      <a href="/student/case-coach" class="card action-card card--accent">
+        <div class="action-card__title">Case Coach</div>
+        <div class="action-card__desc"><%= cases %> cases available</div>
+      </a>
+      <a href="/student/skills-lab" class="card action-card card--accent">
+        <div class="action-card__title">Skills Lab</div>
+        <div class="action-card__desc">Build counselling skills</div>
+      </a>
+      <a href="/student/osce" class="card action-card card--accent">
+        <div class="action-card__title">OSCE Viva</div>
+        <div class="action-card__desc"><%= osceQs %> questions ready</div>
+      </a>
+      <a href="/student/flashcards" class="card action-card card--accent">
+        <div class="action-card__title">Flashcards</div>
+        <div class="action-card__desc"><%= flashcards %> cards across decks</div>
+      </a>
+      <a href="/student/research" class="card action-card card--accent">
+        <div class="action-card__title">Research Helper</div>
+        <div class="action-card__desc">Generate research frameworks</div>
+      </a>
+    </div>
+
+    <div class="card">
+      <h3 class="mb-4">Your learning progress</h3>
+      <p class="text-2" style="font-size:13px; font-style:italic; margin-bottom:16px;">These represent learning progress, not clinical competence certification.</p>
+      <% const categories = ['Counselling','Assessment','Psychopathology','Research']; %>
+      <% categories.forEach(cat => { const p = progress.find(x => x.category === cat); const pct = p ? p.progress_percent : 0; %>
+        <div class="learning-bar">
+          <div class="learning-bar__header"><span style="font-weight:500;"><%= cat %></span><span class="learning-bar__pct"><%= pct %>%</span></div>
+          <div class="progress"><div class="progress__fill" style="width:<%= pct %>%"></div></div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</div>
+<%- include('../partials/mobile-nav') %>
+<%- include('../partials/footer') %>

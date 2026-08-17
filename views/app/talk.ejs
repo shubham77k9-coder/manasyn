@@ -1,0 +1,37 @@
+<%- include('../partials/head', {theme}) %>
+<%- include('../partials/navbar') %>
+<div class="app-layout">
+  <%- include('../partials/sidebar') %>
+  <div class="app-main">
+    <% if (flash) { %><div class="flash flash--<%= flash.type %> mb-6"><%= flash.message %></div><% } %>
+    <div class="flex-between mb-6">
+      <div>
+        <div class="section-label">Talk</div>
+        <h1 style="font-family: var(--font-display); font-size: 28px;">Conversations</h1>
+      </div>
+      <form method="POST" action="/app/talk/new">
+        <button type="submit" class="btn btn--primary btn--sm">New conversation</button>
+      </form>
+    </div>
+    <% if (conversations.length === 0) { %>
+      <div class="empty-state card">
+        <div class="empty-state__title">No conversations yet</div>
+        <div class="empty-state__desc">Your conversations with Manasyn will appear here. Start your first one to begin.</div>
+        <form method="POST" action="/app/talk/new" style="display:inline">
+          <button type="submit" class="btn btn--tertiary btn--sm">Start a conversation</button>
+        </form>
+      </div>
+    <% } else { %>
+      <div class="dash-actions">
+        <% conversations.forEach(c => { %>
+          <a href="/app/talk/<%= c.id %>" class="card action-card">
+            <div class="action-card__title"><%= c.title %></div>
+            <div class="action-card__desc"><%= new Date(c.updated_at).toLocaleDateString('en-IN', {day:'numeric',month:'short'}) %></div>
+          </a>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</div>
+<%- include('../partials/mobile-nav') %>
+<%- include('../partials/footer') %>

@@ -1,0 +1,24 @@
+# ═══ Manasyn v2 — Cloudflare Pages Config (Frontend) ═══
+# Cloudflare Pages serves the static frontend (CSS, JS, images).
+# The Node.js backend runs on Render.
+# This file: wrangler.toml — placed in repo root.
+
+name = "manasyn-frontend"
+compatibility_date = "2024-08-01"
+pages_build_output_dir = "public"
+
+# Environment variables — these are SAFE to expose (anon key only).
+# The service role key is NEVER in frontend — it's only on Render.
+[vars]
+PUBLIC_SUPABASE_URL = "https://your-project-ref.supabase.co"
+PUBLIC_SUPABASE_ANON_KEY = "your-anon-key-here"
+API_BASE_URL = "https://manasyn-backend.onrender.com"
+
+# ═══ Supabase Setup Instructions ═══
+# 1. Create a project at https://supabase.com
+# 2. Go to Project Settings → API
+# 3. Copy the "Project URL" → set as SUPABASE_URL (server) and PUBLIC_SUPABASE_URL (frontend)
+# 4. Copy the "anon public" key → set as SUPABASE_ANON_KEY and PUBLIC_SUPABASE_ANON_KEY
+# 5. Copy the "service_role" key → set as SUPABASE_SERVICE_ROLE_KEY (Render ONLY. NEVER in frontend.)
+# 6. In Supabase → SQL Editor, run the RLS policies (see supabase-rls.sql)
+# 7. In Supabase → Authentication → Providers, enable Email/Password

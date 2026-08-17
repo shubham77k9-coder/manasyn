@@ -1,0 +1,49 @@
+<footer class="footer">
+  <div class="footer__inner">
+    <div>
+      <div class="footer__brand">Manasyn</div>
+      <div class="footer__tagline">Support · Reflect · Grow</div>
+      <p style="font-size: 13px; color: var(--text-2); margin-top: var(--s-3); max-width: 280px;">
+        A calm AI wellness and psychology-learning platform. Not a replacement for professional care.
+      </p>
+    </div>
+    <div class="footer__col">
+      <h4>Product</h4>
+      <a href="/">Home</a>
+      <a href="/how-it-works">How it works</a>
+      <a href="/for-you">For You</a>
+      <a href="/for-students">For Students</a>
+      <a href="/pricing">Pricing</a>
+    </div>
+    <div class="footer__col">
+      <h4>Resources</h4>
+      <a href="/safety">Safety</a>
+      <a href="/crisis-resources">Crisis Resources</a>
+      <a href="/about">About</a>
+    </div>
+    <div class="footer__col">
+      <h4>Account</h4>
+      <a href="/auth/login">Log in</a>
+      <a href="/auth/signup">Sign up</a>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <span>© 2024 Manasyn. All rights reserved.</span>
+    <span>Designed with care. Built with boundaries.</span>
+  </div>
+</footer>
+
+<!-- AOS library -->
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<!-- Enhanced JS (cursor, toasts, animations, skeletons, network detection) -->
+<script src="/js/enhanced.js"></script>
+<!-- Service worker registration -->
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
+    });
+  }
+</script>
+</body>
+</html>

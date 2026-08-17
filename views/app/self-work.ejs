@@ -1,0 +1,42 @@
+<%- include('../partials/head', {theme}) %>
+<%- include('../partials/navbar') %>
+<div class="app-layout">
+  <%- include('../partials/sidebar') %>
+  <div class="app-main">
+    <% if (flash) { %><div class="flash flash--<%= flash.type %> mb-6"><%= flash.message %></div><% } %>
+    <div class="section-label">Self-Work</div>
+    <h1 class="italic-serif mb-2" style="font-size:28px;">Today's self-work</h1>
+    <div class="flex gap-3 mb-6" style="align-items:center;">
+      <div class="progress" style="width:120px;"><div class="progress__fill" style="width:<%= total > 0 ? (completed/total*100) : 0 %>%"></div></div>
+      <span class="text-2" style="font-size:14px;"><%= completed %> / <%= total %> completed</span>
+    </div>
+
+    <% if (exercises.length === 0) { %>
+      <div class="empty-state card">
+        <div class="empty-state__title">No exercises yet</div>
+        <div class="empty-state__desc">Your self-work exercises will appear here.</div>
+      </div>
+    <% } else { %>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <% exercises.forEach(e => { %>
+          <div class="selfwork-item <%= e.status === 'completed' ? 'selfwork-item--done' : '' %>" data-id="<%= e.id %>">
+            <div class="selfwork-item__num"><%= String(e.step_number).padStart(2,'0') %></div>
+            <div class="selfwork-item__body">
+              <div class="selfwork-item__title"><%= e.title %></div>
+              <div class="selfwork-item__desc"><%= e.description %></div>
+            </div>
+            <button class="selfwork-item__check" onclick="completeExercise(<%= e.id %>)"><%= e.status === 'completed' ? '✓' : '' %></button>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</div>
+<script>
+async function completeExercise(id) {
+  const res = await fetch('/app/self-work/' + id + '/complete', { method: 'POST' });
+  if (res.ok) { location.reload(); }
+}
+</script>
+<%- include('../partials/mobile-nav') %>
+<%- include('../partials/footer') %>
